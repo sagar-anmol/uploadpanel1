@@ -68,12 +68,10 @@ interface Episodes1Props {
     if (currentEpisode > episodeLinks.length && episodeLinks.length > 0) {
       const submitFinalData = async () => {
         const sessionData = {
-          data: {
-            contentId: sessionStorage.getItem('FolderName'),
-            uploader: sessionStorage.getItem('encodedNumber'),
-            email: sessionStorage.getItem('email'),
-            name: sessionStorage.getItem('naam'),
-          },
+          contentId: sessionStorage.getItem('FolderName'),
+          uploader: sessionStorage.getItem('encodedNumber'),
+          email: sessionStorage.getItem('email'),
+          name: sessionStorage.getItem('naam'),
         };
 
         try {
