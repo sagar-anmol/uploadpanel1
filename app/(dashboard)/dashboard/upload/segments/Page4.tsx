@@ -43,7 +43,7 @@ interface Episodes1Props {
       const FolderName = sessionStorage.getItem('FolderName');
       const selectedMovieTitle = sessionStorage.getItem('selectedMovieTitle');
       const encodedNumber = sessionStorage.getItem('encodedNumber');
-      const response = await fetch(`https://upload.sagaranmol.link?foldername=${FolderName}&newTitle=${encodedNumber}-${selectedMovieTitle}E${currentEpisode}&upload_url=${encodeURIComponent(linkInput)}`, {
+      const response = await fetch(`https://newupload.sagaranmol.link?foldername=${FolderName}&newTitle=${encodedNumber}-${selectedMovieTitle}E${currentEpisode}&upload_url=${encodeURIComponent(linkInput)}`, {
         method: 'GET',
       });
 
@@ -71,6 +71,8 @@ interface Episodes1Props {
           data: {
             contentId: sessionStorage.getItem('FolderName'),
             uploader: sessionStorage.getItem('encodedNumber'),
+            email: sessionStorage.getItem('email'),
+            name: sessionStorage.getItem('naam'),
           },
         };
 

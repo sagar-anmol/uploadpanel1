@@ -17,6 +17,10 @@ export function UserNav() {
   const { data: session } = useSession();
   if (session) {
     let email = `${session.user?.email}`;
+    let naam = `${session.user?.name}`;
+    const sessionStorage = window.sessionStorage;
+      sessionStorage.setItem('email', email);
+      sessionStorage.setItem('naam', naam);
     return (
      <>
       <EmailEncoder email={email} />
