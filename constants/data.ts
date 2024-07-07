@@ -124,6 +124,12 @@ export const navItems: NavItem[] = [
     icon: 'dashboard',
     label: 'Upload'
   },
+  {
+    title: 'My videos',
+    href: '/dashboard/myvideos',
+    icon: 'dashboard',
+    label: 'my videos'
+  },
   
   {
     title: 'Login',
