@@ -1,4 +1,4 @@
-'use client';
+"use client"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
@@ -14,21 +14,26 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { signOut, useSession } from 'next-auth/react';
 import EmailEncoder from './email-encoder';
+
 export function UserNav() {
   const { data: session } = useSession();
-  if (session) {
-    useEffect(() => {
-      if (typeof window !== 'undefined') {
-          let email = `${session.user?.email}`;
-          let naam = `${session.user?.name}`;
-          window.sessionStorage.setItem('email', email);
-          window.sessionStorage.setItem('naam', naam);
-      }
+
+  useEffect(() => {
+    if (session && typeof window !== 'undefined') {
+      let email = session.user?.email ?? '';
+      let naam = session.user?.name ?? '';
+      window.sessionStorage.setItem('email', email);
+      window.sessionStorage.setItem('naam', naam);
+    }
   }, [session]);
-  let email = `${session.user?.email}`;
-    return (
-     <>
-      <EmailEncoder email={email} />
+
+  if (!session) {
+    return null; // or any placeholder for when there's no session
+  }
+
+  return (
+    <>
+      <EmailEncoder email={session.user?.email ?? ''} />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -50,7 +55,6 @@ export function UserNav() {
               <p className="text-xs leading-none text-muted-foreground">
                 {session.user?.email}
               </p>
-              
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
@@ -59,7 +63,6 @@ export function UserNav() {
               Profile
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
-            
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => signOut()}>
@@ -68,7 +71,6 @@ export function UserNav() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      </>
-    );
-  }
+    </>
+  );
 }

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import axios from 'axios';
+import Image from 'next/image';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -103,7 +104,7 @@ const Home: React.FC<HomeProps> = ({ setActiveSegment }) => {
         <div className="overflow-x-auto whitespace-nowrap py-4">
           {movies.map((movie) => (
             <div key={movie.id} className="inline-block px-2 text-center">
-              <img
+              <Image
                 src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
                 alt={movie.title}
                 className="w-40 h-60 object-cover mb-2 cursor-pointer"
