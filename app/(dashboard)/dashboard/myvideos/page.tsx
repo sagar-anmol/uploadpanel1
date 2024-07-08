@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { Link } from 'react-router-dom';
+
 import {
   CaretSortIcon,
   ChevronDownIcon,
@@ -105,7 +107,9 @@ const columns: ColumnDef<Payment>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Watch it</DropdownMenuItem>
+            <DropdownMenuItem>
+              <a href="/dashboard/myvideos/watch">Watch it</a>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View video stat</DropdownMenuItem>
             <DropdownMenuItem>delete</DropdownMenuItem>
@@ -127,13 +131,16 @@ export function DataTableDemo() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   React.useEffect(() => {
-    let uploader = sessionStorage.getItem('encodedNumber');
+    let uploader = sessionStorage.getItem("encodedNumber");
     // Replace with your actual API endpoint
     fetch(`https://thevideos.sagaranmol.link/?uploader=${uploader}`)
       .then((response) => response.json())
       .then((data: Payment[]) => {
         // Set Views to "NA" for all entries
-        const transformedData = data.map((item) => ({ Files: item.contentId, Views: "NA" }));
+        const transformedData = data.map((item) => ({
+          Files: item.contentId,
+          Views: "NA",
+        }));
         setData(transformedData);
       })
       .catch((error) => {
@@ -228,10 +235,7 @@ export function DataTableDemo() {
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>

@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -17,6 +18,7 @@ import {
   DialogFooter,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
 
 // Define the type for the props
 interface Page1Props {

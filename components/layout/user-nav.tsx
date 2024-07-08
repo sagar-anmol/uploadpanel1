@@ -1,5 +1,6 @@
 'use client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -16,11 +17,15 @@ import EmailEncoder from './email-encoder';
 export function UserNav() {
   const { data: session } = useSession();
   if (session) {
-    let email = `${session.user?.email}`;
-    let naam = `${session.user?.name}`;
-    const sessionStorage = window.sessionStorage;
-      sessionStorage.setItem('email', email);
-      sessionStorage.setItem('naam', naam);
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+          let email = `${session.user?.email}`;
+          let naam = `${session.user?.name}`;
+          window.sessionStorage.setItem('email', email);
+          window.sessionStorage.setItem('naam', naam);
+      }
+  }, [session]);
+  let email = `${session.user?.email}`;
     return (
      <>
       <EmailEncoder email={email} />
