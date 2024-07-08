@@ -1,9 +1,4 @@
-// components/DataTableDemo.tsx
-"use client";
-
 import * as React from "react";
-import { Link } from 'react-router-dom';
-
 import {
   CaretSortIcon,
   ChevronDownIcon,
@@ -99,6 +94,57 @@ const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       const payment = row.original;
 
+      const handleWatchClick = (files: string) => {
+        // Conditional API call based on Files data
+        let apiUrl = "";
+        let storageKey = "";
+
+        if (files.startsWith("movie-")) {
+          const movieId = files.split("-")[1];
+          apiUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`;
+          storageKey = `movie-${movieId}`;
+        } else if (files.startsWith("tv-")) {
+          const seriesId = files.split("-")[1];
+          apiUrl = `https://api.themoviedb.org/3/tv/${seriesId}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`;
+          storageKey = `tv-${seriesId}`;
+        }
+
+        // Make first API call
+        if (apiUrl) {
+          fetch(apiUrl)
+            .then((response) => response.json())
+            .then((firstApiResponse) => {
+              // Save necessary fields from first API response to sessionStorage
+              sessionStorage.setItem("myPosterPath", `https://image.tmdb.org/t/p/w500${firstApiResponse.poster_path}`);
+              
+              // Make second API call (assuming it's also a GET request)
+              fetch(`https://myvideoplayer.youknowme3299.workers.dev/?param=${storageKey}`, {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                // Assuming you need to pass data from first API in the query
+                // Adjust query parameters as per your API requirements
+                // Example: `?dataFromFirstApi=${encodeURIComponent(firstApiResponse.someData)}`
+              })
+                .then((response) => response.json())
+                .then((secondApiResponse) => {
+                  // Save necessary fields from second API response to sessionStorage
+                  sessionStorage.setItem("myVideosData", JSON.stringify(secondApiResponse.file));
+
+                  // Navigate to the desired location
+                  window.location.href = "/dashboard/myvideos/watch";
+                })
+                .catch((error) => {
+                  console.error("Error with second API call: ", error);
+                });
+            })
+            .catch((error) => {
+              console.error("Error with first API call: ", error);
+            });
+        }
+      };
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -110,7 +156,15 @@ const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>
-              <Link to="/dashboard/myvideos/watch">Watch it</Link>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleWatchClick(payment.Files);
+                }}
+              >
+                Watch it
+              </a>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View video stat</DropdownMenuItem>
