@@ -108,7 +108,7 @@ const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>
-              <a href="/dashboard/myvideos/watch">Watch it</a>
+              <Link to="\dashboard\myvideos\watch">Watch it</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View video stat</DropdownMenuItem>
@@ -123,15 +123,12 @@ const columns: ColumnDef<Payment>[] = [
 export function DataTableDemo() {
   const [data, setData] = React.useState<Payment[]>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   React.useEffect(() => {
-    let uploader = sessionStorage.getItem("encodedNumber");
+    const uploader = sessionStorage.getItem("encodedNumber");
     // Replace with your actual API endpoint
     fetch(`https://thevideos.sagaranmol.link/?uploader=${uploader}`)
       .then((response) => response.json())
@@ -146,7 +143,7 @@ export function DataTableDemo() {
       .catch((error) => {
         console.error("Error fetching data: ", error);
       });
-  }, []);
+  }, []); // Note the empty dependency array to ensure it runs only once
 
   const table = useReactTable({
     data,
