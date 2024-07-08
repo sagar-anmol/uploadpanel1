@@ -107,6 +107,8 @@ const Home: React.FC<HomeProps> = ({ setActiveSegment }) => {
               <Image
                 src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
                 alt={movie.title}
+                width={200}
+                height={300}
                 className="w-40 h-60 object-cover mb-2 cursor-pointer"
                 onClick={() => handleClick(movie)}
               />
