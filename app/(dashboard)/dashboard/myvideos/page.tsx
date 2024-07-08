@@ -108,7 +108,7 @@ const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>
-              <Link to="\dashboard\myvideos\watch">Watch it</Link>
+              <Link to="/dashboard/myvideos/watch">Watch it</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View video stat</DropdownMenuItem>
@@ -129,20 +129,22 @@ export function DataTableDemo() {
 
   React.useEffect(() => {
     const uploader = sessionStorage.getItem("encodedNumber");
-    // Replace with your actual API endpoint
-    fetch(`https://thevideos.sagaranmol.link/?uploader=${uploader}`)
-      .then((response) => response.json())
-      .then((data: Payment[]) => {
-        // Set Views to "NA" for all entries
-        const transformedData = data.map((item) => ({
-          Files: item.contentId,
-          Views: "NA",
-        }));
-        setData(transformedData);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
+    if (uploader) {
+      // Replace with your actual API endpoint
+      fetch(`https://thevideos.sagaranmol.link/?uploader=${uploader}`)
+        .then((response) => response.json())
+        .then((data: Payment[]) => {
+          // Set Views to "NA" for all entries
+          const transformedData = data.map((item) => ({
+            Files: item.contentId,
+            Views: "NA",
+          }));
+          setData(transformedData);
+        })
+        .catch((error) => {
+          console.error("Error fetching data: ", error);
+        });
+    }
   }, []); // Note the empty dependency array to ensure it runs only once
 
   const table = useReactTable({
